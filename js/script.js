@@ -1,10 +1,11 @@
-window.addEventListener('DOMContentLoaded', function () {
+'use strict';
 
-    'use strict';
+window.addEventListener('DOMContentLoaded', nativeTabs);
+
+function nativeTabs() {
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
-
 
     function hideTabContent(a) {
         for (let i = a; i < tabContent.length; i++) {
@@ -35,4 +36,4 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-});
+}
