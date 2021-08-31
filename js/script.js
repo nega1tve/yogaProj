@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (target == tab[i]) {
                     hideTabContent(0);
                     showTabContent(i);
+                    descriptionBtn(i);
                     break;
                 }
             }
@@ -37,10 +38,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Timer
 
-    let deadline = '2021-10-01';
+    let deadline = '2021-09-01';
 
-    function getTimeRemaining(endtime) {
-        let t = Date.parse(endtime) - Date.parse(new Date()),
+    function getTimeRemaining(deadline) {
+        let t = Date.parse(deadline) - Date.parse(new Date()),
             seconds = Math.floor((t / 1000) % 60),
             minutes = Math.floor((t / 1000 / 60) % 60),
             hours = Math.floor((t / (1000 * 60 * 60)));
@@ -53,25 +54,53 @@ window.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    function setClock(id, endtime){
-        let timer = document.getElementById(id),
-            hours = timer.querySelector('.hours'),
-            minutes = timer.querySelector('.minutes'),
-            seconds = timer.querySelector('.seconds');
-            timeInterval = setInterval(updateClock, 1000);
+    function setClock(id, deadline) {
+        let timer = document.getElementById(id);
+        let hours = timer.querySelector('.hours');
+        let minutes = timer.querySelector('.minutes');
+        let seconds = timer.querySelector('.seconds');
+        let timeInterval = setInterval(updateClock, 1000);
 
-        function updateClock(){
-            let t = getTimeRemaining(endtime);
-            hours.textContent = t.hours;
-            minutes.textContent = t.minutes;
-            seconds.textContent = t.seconds;
+        function updateClock() {
+            let t = getTimeRemaining(deadline);
+            hours.textContent = ("0" + t.hours).slice(-2);
+            minutes.textContent = ("0" + t.minutes).slice(-2);
+            seconds.textContent = ("0" + t.seconds).slice(-2);
 
-            if(t.total <= 0){
+            if (t.total <= 0) {
                 clearInterval(timeInterval);
-
             }
         }
     }
 
     setClock('timer', deadline);
+
+    //Modal
+
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close');
+
+    more.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
+
+    function descriptionBtn(t) {
+        let descriptionBtn = document.querySelectorAll('.description-btn')[t];
+
+        descriptionBtn.addEventListener('click', function () {
+            overlay.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
 });
